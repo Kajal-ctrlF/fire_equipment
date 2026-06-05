@@ -329,7 +329,6 @@ function getDetailCollectionBadge(collection) {
 }
 
 function ItemDetailPage({ item, collection, pageLabel, collectionPath }) {
-  const detailCopy = buildItemDetailCopy(item);
   const badge = getDetailCollectionBadge(collection);
 
   return (
@@ -350,6 +349,14 @@ function ItemDetailPage({ item, collection, pageLabel, collectionPath }) {
           </div>
 
           <div className="item-page-card">
+            <figure className="item-page-visual">
+              <img className="item-page-image" src={item.image} alt={item.title} loading="eager" />
+              <figcaption>
+                <span>Featured image</span>
+                <strong>{item.title}</strong>
+              </figcaption>
+            </figure>
+
             <div className="item-page-copy">
               <p className="item-page-eyebrow">{pageLabel}</p>
               <h1>{item.title}</h1>
@@ -370,24 +377,6 @@ function ItemDetailPage({ item, collection, pageLabel, collectionPath }) {
                 </Link>
               </div>
             </div>
-
-            <figure className="item-page-visual">
-              <img className="item-page-image" src={item.image} alt={item.title} loading="eager" />
-              <figcaption>
-                <span>Featured image</span>
-                <strong>{item.title}</strong>
-              </figcaption>
-            </figure>
-
-            <aside className="item-page-aside" aria-hidden="true">
-              <span className="item-page-orb item-page-orb--one" />
-              <span className="item-page-orb item-page-orb--two" />
-              <div className="item-page-aside-card">
-                <p>Collection focus</p>
-                <strong>{badge.label}</strong>
-                <span>{detailCopy.detailIntro}</span>
-              </div>
-            </aside>
           </div>
         </div>
 

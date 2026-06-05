@@ -4557,7 +4557,7 @@ section + section {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.92fr) minmax(260px, 0.72fr);
+  grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.05fr);
   gap: 28px;
   align-items: end;
   min-height: 430px;
@@ -4676,72 +4676,6 @@ section + section {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1rem;
   line-height: 1.2;
-}
-
-.item-page-aside {
-  position: relative;
-  min-height: 360px;
-  display: grid;
-  align-items: end;
-}
-
-.item-page-orb {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.item-page-orb--one {
-  width: 220px;
-  height: 220px;
-  right: 38px;
-  top: 16px;
-  background: radial-gradient(circle, rgba(193, 18, 31, 0.18) 0%, rgba(193, 18, 31, 0) 72%);
-}
-
-.item-page-orb--two {
-  width: 300px;
-  height: 300px;
-  right: -12px;
-  bottom: -82px;
-  background: radial-gradient(circle, rgba(102, 155, 188, 0.18) 0%, rgba(102, 155, 188, 0) 72%);
-}
-
-.item-page-aside-card {
-  position: relative;
-  z-index: 1;
-  width: min(100%, 340px);
-  margin-left: auto;
-  padding: 22px 22px 24px;
-  border-radius: 28px;
-  border: 1px solid rgba(0, 48, 73, 0.08);
-  background: rgba(255, 249, 237, 0.84);
-  box-shadow: 0 16px 32px rgba(0, 48, 73, 0.08);
-  backdrop-filter: blur(8px);
-}
-
-.item-page-aside-card p {
-  margin: 0 0 10px;
-  color: rgba(0, 48, 73, 0.58);
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 0.7rem;
-  font-weight: 700;
-}
-
-.item-page-aside-card strong {
-  display: block;
-  margin-bottom: 12px;
-  color: #003049;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.45rem;
-  line-height: 1.05;
-}
-
-.item-page-aside-card span {
-  display: block;
-  color: rgba(0, 48, 73, 0.74);
-  line-height: 1.75;
 }
 
 .item-page-sections {
