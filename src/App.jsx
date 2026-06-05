@@ -371,6 +371,14 @@ function ItemDetailPage({ item, collection, pageLabel, collectionPath }) {
               </div>
             </div>
 
+            <figure className="item-page-visual">
+              <img className="item-page-image" src={item.image} alt={item.title} loading="eager" />
+              <figcaption>
+                <span>Featured image</span>
+                <strong>{item.title}</strong>
+              </figcaption>
+            </figure>
+
             <aside className="item-page-aside" aria-hidden="true">
               <span className="item-page-orb item-page-orb--one" />
               <span className="item-page-orb item-page-orb--two" />
