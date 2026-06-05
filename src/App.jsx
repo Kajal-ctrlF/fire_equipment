@@ -302,6 +302,146 @@ const COLLECTION_BRAND = {
   certifications: ['NFPA 72', 'IS 15683', 'ISO-ready documentation']
 };
 
+const DETAIL_COLLECTION_BADGES = {
+  'fire-detection': { icon: 'fa-bell', label: 'Fire Detection' },
+  'fire-suppression': { icon: 'fa-fire-flame-curved', label: 'Fire Suppression' },
+  'hydrant-systems': { icon: 'fa-droplet', label: 'Hydrant Systems' },
+  'life-safety': { icon: 'fa-person-walking-arrow-right', label: 'Life Safety' },
+  'ppe-safety': { icon: 'fa-helmet-safety', label: 'PPE & Safety Gear' },
+  'consulting-planning': { icon: 'fa-clipboard-check', label: 'Consulting & Planning' },
+  'engineering-design': { icon: 'fa-drafting-compass', label: 'Engineering & Design' },
+  'delivery-compliance': { icon: 'fa-truck-fast', label: 'Delivery & Compliance' },
+  'maintenance-readiness': { icon: 'fa-screwdriver-wrench', label: 'Maintenance & Readiness' },
+  'industrial-manufacturing': { icon: 'fa-industry', label: 'Industrial & Manufacturing' },
+  'healthcare-critical-care': { icon: 'fa-hospital', label: 'Healthcare & Critical Care' },
+  'commercial-public-spaces': { icon: 'fa-city', label: 'Commercial & Public Spaces' },
+  'technology-logistics': { icon: 'fa-server', label: 'Technology & Logistics' },
+  default: { icon: 'fa-shield-halved', label: 'Fire Protection' }
+};
+
+function getDetailCollectionBadge(collection) {
+  const badge = DETAIL_COLLECTION_BADGES[collection?.slug] || DETAIL_COLLECTION_BADGES.default;
+
+  return {
+    icon: badge.icon,
+    label: collection?.title || badge.label
+  };
+}
+
+function ItemDetailPage({ item, collection, pageLabel, collectionPath }) {
+  const detailCopy = buildItemDetailCopy(item);
+  const badge = getDetailCollectionBadge(collection);
+
+  return (
+    <section className="section page-section item-page-section">
+      <div className="container item-page-shell">
+        <div className="item-page-frame" data-reveal>
+          <div className="item-page-strip">
+            <span className="item-page-strip-label">
+              <span className="item-page-strip-dot" aria-hidden="true">
+                •
+              </span>
+              {pageLabel.toUpperCase()}
+            </span>
+            <span className="item-page-strip-collection">
+              <i className={`fa-solid ${badge.icon}`} />
+              {badge.label}
+            </span>
+          </div>
+
+          <div className="item-page-card">
+            <div className="item-page-copy">
+              <p className="item-page-eyebrow">{pageLabel}</p>
+              <h1>{item.title}</h1>
+              <p className="item-page-summary">{item.summary}</p>
+              <div className="pill-row item-page-pill-row">
+                {item.specs.map((spec) => (
+                  <span key={spec} className="pill">
+                    {spec}
+                  </span>
+                ))}
+              </div>
+              <div className="hero-buttons item-page-actions">
+                <Link className="btn btn-primary" to="/#contact">
+                  Request quote
+                </Link>
+                <Link className="btn btn-ghost" to={collectionPath}>
+                  More in this collection
+                </Link>
+              </div>
+            </div>
+
+            <aside className="item-page-aside" aria-hidden="true">
+              <span className="item-page-orb item-page-orb--one" />
+              <span className="item-page-orb item-page-orb--two" />
+              <div className="item-page-aside-card">
+                <p>Collection focus</p>
+                <strong>{badge.label}</strong>
+                <span>{detailCopy.detailIntro}</span>
+              </div>
+            </aside>
+          </div>
+        </div>
+
+        <div className="detail-sections item-page-sections">
+          <DetailIntroSection item={item} />
+          <section className="detail-section" data-reveal style={revealStyle(1)}>
+            <h2>Overview</h2>
+            <p>{item.overview}</p>
+          </section>
+          <section className="detail-section" data-reveal style={revealStyle(2)}>
+            <h2>Key features</h2>
+            <div className="pill-row">
+              {item.features.map((feature) => (
+                <span key={feature} className="pill">
+                  {feature}
+                </span>
+              ))}
+            </div>
+          </section>
+          <section className="detail-section" data-reveal style={revealStyle(3)}>
+            <h2>Applications</h2>
+            <div className="pill-row">
+              {item.applications.map((application) => (
+                <span key={application} className="pill">
+                  {application}
+                </span>
+              ))}
+            </div>
+          </section>
+          <section className="detail-section" data-reveal style={revealStyle(4)}>
+            <h2>Standards and compliance</h2>
+            <div className="pill-row">
+              {item.standards.map((standard) => (
+                <span key={standard} className="pill">
+                  {standard}
+                </span>
+              ))}
+            </div>
+          </section>
+          <section className="detail-section" data-reveal style={revealStyle(5)}>
+            <h2>Technical snapshot</h2>
+            <div className="spec-rows">
+              <div>
+                <span>Deployment</span>
+                <strong>{item.deployment}</strong>
+              </div>
+              <div>
+                <span>Compliance</span>
+                <strong>{item.compliance}</strong>
+              </div>
+              <div>
+                <span>Lead time</span>
+                <strong>{item.leadTime}</strong>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const CONTACT_MAP_URL = `https://www.google.com/maps?q=${encodeURIComponent(COLLECTION_BRAND.address)}&output=embed`;
 
 function getCollectionShowcaseMeta(item, index) {
@@ -2253,99 +2393,15 @@ function ProductPage({ getCollection, getProduct, canonical }) {
   }
 
   const activeCollection = collection || getCollection(collectionSlug);
+  if (!activeCollection) return <Navigate to="/products" replace />;
 
   return (
-    <section className="section page-section">
-      <div className="container">
-        <div className="breadcrumb">
-          <Link to="/products">Products</Link>
-          <span>/</span>
-          <Link to={`/products/${activeCollection.slug}`}>{activeCollection.title}</Link>
-          <span>/</span>
-          <span>{product.title}</span>
-        </div>
-        <div className="detail-hero">
-          <div className="detail-image-wrap" data-reveal>
-            <img className="detail-image" src={product.image} alt={product.title} />
-          </div>
-          <div className="detail-copy detail-copy--item" data-reveal style={revealStyle(1)}>
-            <p className="eyebrow">Item page</p>
-            <h1>{product.title}</h1>
-            <p className="lead">{product.summary}</p>
-            <div className="pill-row">
-              {product.specs.map((spec) => (
-                <span key={spec} className="pill">
-                  {spec}
-                </span>
-              ))}
-            </div>
-            <div className="hero-buttons">
-              <Link className="btn btn-primary" to="/#contact">
-                Request quote
-              </Link>
-              <Link className="btn btn-ghost" to={`/products/${activeCollection.slug}`}>
-                More in this collection
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="detail-sections">
-          <DetailIntroSection item={product} />
-          <section className="detail-section" data-reveal>
-            <h2>Overview</h2>
-            <p>{product.overview}</p>
-          </section>
-          <section className="detail-section" data-reveal style={revealStyle(1)}>
-            <h2>Key features</h2>
-            <div className="pill-row">
-              {product.features.map((feature) => (
-                <span key={feature} className="pill">
-                  {feature}
-                </span>
-              ))}
-            </div>
-          </section>
-          <section className="detail-section" data-reveal style={revealStyle(2)}>
-            <h2>Applications</h2>
-            <div className="pill-row">
-              {product.applications.map((application) => (
-                <span key={application} className="pill">
-                  {application}
-                </span>
-              ))}
-            </div>
-          </section>
-          <section className="detail-section" data-reveal style={revealStyle(3)}>
-            <h2>Standards and compliance</h2>
-            <div className="pill-row">
-              {product.standards.map((standard) => (
-                <span key={standard} className="pill">
-                  {standard}
-                </span>
-              ))}
-            </div>
-          </section>
-          <section className="detail-section" data-reveal style={revealStyle(4)}>
-            <h2>Technical snapshot</h2>
-            <div className="spec-rows">
-              <div>
-                <span>Deployment</span>
-                <strong>{product.deployment}</strong>
-              </div>
-              <div>
-                <span>Compliance</span>
-                <strong>{product.compliance}</strong>
-              </div>
-              <div>
-                <span>Lead time</span>
-                <strong>{product.leadTime}</strong>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </section>
+    <ItemDetailPage
+      item={product}
+      collection={activeCollection}
+      pageLabel="Item page"
+      collectionPath={`/products/${activeCollection.slug}`}
+    />
   );
 }
 
@@ -2357,99 +2413,15 @@ function ServicePage({ getCollection, getService }) {
   if (!service) return <Navigate to="/services" replace />;
 
   const activeCollection = collection || getCollection(collectionSlug);
+  if (!activeCollection) return <Navigate to="/services" replace />;
 
   return (
-    <section className="section page-section">
-      <div className="container">
-        <div className="breadcrumb">
-          <Link to="/services">Services</Link>
-          <span>/</span>
-          <Link to={`/services/${activeCollection.slug}`}>{activeCollection.title}</Link>
-          <span>/</span>
-          <span>{service.title}</span>
-        </div>
-        <div className="detail-hero">
-          <div className="detail-image-wrap" data-reveal>
-            <img className="detail-image" src={service.image} alt={service.title} />
-          </div>
-          <div className="detail-copy detail-copy--item" data-reveal style={revealStyle(1)}>
-            <p className="eyebrow">Service page</p>
-            <h1>{service.title}</h1>
-            <p className="lead">{service.summary}</p>
-            <div className="pill-row">
-              {service.specs.map((spec) => (
-                <span key={spec} className="pill">
-                  {spec}
-                </span>
-              ))}
-            </div>
-            <div className="hero-buttons">
-              <Link className="btn btn-primary" to="/#contact">
-                Request quote
-              </Link>
-              <Link className="btn btn-ghost" to={`/services/${activeCollection.slug}`}>
-                More in this collection
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="detail-sections">
-          <DetailIntroSection item={service} />
-          <section className="detail-section" data-reveal>
-            <h2>Overview</h2>
-            <p>{service.overview}</p>
-          </section>
-          <section className="detail-section" data-reveal style={revealStyle(1)}>
-            <h2>Key features</h2>
-            <div className="pill-row">
-              {service.features.map((feature) => (
-                <span key={feature} className="pill">
-                  {feature}
-                </span>
-              ))}
-            </div>
-          </section>
-          <section className="detail-section" data-reveal style={revealStyle(2)}>
-            <h2>Applications</h2>
-            <div className="pill-row">
-              {service.applications.map((application) => (
-                <span key={application} className="pill">
-                  {application}
-                </span>
-              ))}
-            </div>
-          </section>
-          <section className="detail-section" data-reveal style={revealStyle(3)}>
-            <h2>Standards and compliance</h2>
-            <div className="pill-row">
-              {service.standards.map((standard) => (
-                <span key={standard} className="pill">
-                  {standard}
-                </span>
-              ))}
-            </div>
-          </section>
-          <section className="detail-section" data-reveal style={revealStyle(4)}>
-            <h2>Technical snapshot</h2>
-            <div className="spec-rows">
-              <div>
-                <span>Deployment</span>
-                <strong>{service.deployment}</strong>
-              </div>
-              <div>
-                <span>Compliance</span>
-                <strong>{service.compliance}</strong>
-              </div>
-              <div>
-                <span>Lead time</span>
-                <strong>{service.leadTime}</strong>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </section>
+    <ItemDetailPage
+      item={service}
+      collection={activeCollection}
+      pageLabel="Service page"
+      collectionPath={`/services/${activeCollection.slug}`}
+    />
   );
 }
 
@@ -2461,99 +2433,15 @@ function IndustryPage({ getCollection, getIndustry }) {
   if (!industry) return <Navigate to="/industries" replace />;
 
   const activeCollection = collection || getCollection(collectionSlug);
+  if (!activeCollection) return <Navigate to="/industries" replace />;
 
   return (
-    <section className="section page-section">
-      <div className="container">
-        <div className="breadcrumb">
-          <Link to="/industries">Industries</Link>
-          <span>/</span>
-          <Link to={`/industries/${activeCollection.slug}`}>{activeCollection.title}</Link>
-          <span>/</span>
-          <span>{industry.title}</span>
-        </div>
-        <div className="detail-hero">
-          <div className="detail-image-wrap" data-reveal>
-            <img className="detail-image" src={industry.image} alt={industry.title} />
-          </div>
-          <div className="detail-copy detail-copy--item" data-reveal style={revealStyle(1)}>
-            <p className="eyebrow">Industry page</p>
-            <h1>{industry.title}</h1>
-            <p className="lead">{industry.summary}</p>
-            <div className="pill-row">
-              {industry.specs.map((spec) => (
-                <span key={spec} className="pill">
-                  {spec}
-                </span>
-              ))}
-            </div>
-            <div className="hero-buttons">
-              <Link className="btn btn-primary" to="/#contact">
-                Request quote
-              </Link>
-              <Link className="btn btn-ghost" to={`/industries/${activeCollection.slug}`}>
-                More in this collection
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="detail-sections">
-          <DetailIntroSection item={industry} />
-          <section className="detail-section" data-reveal>
-            <h2>Overview</h2>
-            <p>{industry.overview}</p>
-          </section>
-          <section className="detail-section" data-reveal style={revealStyle(1)}>
-            <h2>Key features</h2>
-            <div className="pill-row">
-              {industry.features.map((feature) => (
-                <span key={feature} className="pill">
-                  {feature}
-                </span>
-              ))}
-            </div>
-          </section>
-          <section className="detail-section" data-reveal style={revealStyle(2)}>
-            <h2>Applications</h2>
-            <div className="pill-row">
-              {industry.applications.map((application) => (
-                <span key={application} className="pill">
-                  {application}
-                </span>
-              ))}
-            </div>
-          </section>
-          <section className="detail-section" data-reveal style={revealStyle(3)}>
-            <h2>Standards and compliance</h2>
-            <div className="pill-row">
-              {industry.standards.map((standard) => (
-                <span key={standard} className="pill">
-                  {standard}
-                </span>
-              ))}
-            </div>
-          </section>
-          <section className="detail-section" data-reveal style={revealStyle(4)}>
-            <h2>Technical snapshot</h2>
-            <div className="spec-rows">
-              <div>
-                <span>Deployment</span>
-                <strong>{industry.deployment}</strong>
-              </div>
-              <div>
-                <span>Compliance</span>
-                <strong>{industry.compliance}</strong>
-              </div>
-              <div>
-                <span>Lead time</span>
-                <strong>{industry.leadTime}</strong>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </section>
+    <ItemDetailPage
+      item={industry}
+      collection={activeCollection}
+      pageLabel="Industry page"
+      collectionPath={`/industries/${activeCollection.slug}`}
+    />
   );
 }
 
