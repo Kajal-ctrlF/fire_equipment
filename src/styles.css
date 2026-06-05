@@ -1338,7 +1338,8 @@ section + section {
 
 .industry-chip-popover {
   position: absolute;
-  top: calc(100% + 12px);
+  top: auto;
+  bottom: calc(100% + 12px);
   left: 50%;
   z-index: 20;
   width: clamp(280px, 24vw, 320px);
@@ -1348,7 +1349,7 @@ section + section {
   background: #ffffff;
   border: 1px solid rgba(0, 48, 73, 0.08);
   box-shadow: 0 20px 44px rgba(0, 48, 73, 0.14);
-  transform: translateX(var(--popover-x, -50%)) translateY(-8px);
+  transform: translateX(var(--popover-x, -50%)) translateY(8px);
   animation: industryPopoverIn 280ms ease-out forwards;
   pointer-events: none;
 }
@@ -1382,7 +1383,7 @@ section + section {
 @keyframes industryPopoverIn {
   from {
     opacity: 0;
-    transform: translateX(var(--popover-x, -50%)) translateY(-12px);
+    transform: translateX(var(--popover-x, -50%)) translateY(12px);
   }
 
   to {
@@ -1499,6 +1500,8 @@ section + section {
   gap: 18px 14px;
   align-items: flex-start;
   overflow: visible;
+  padding-bottom: 128px;
+  margin-bottom: -128px;
 }
 
 .industry-chip-item {
@@ -5006,6 +5009,25 @@ section + section {
   .map-frame-wrap,
   .map-frame {
     min-height: 240px;
+  }
+
+  .industry-chip-cloud {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .industry-chip-item {
+    width: 100%;
+  }
+
+  .industry-chip-popover {
+    position: static;
+    width: 100%;
+    max-width: none;
+    margin-top: 10px;
+    transform: none;
+    animation: none;
+    pointer-events: auto;
   }
 }
 
