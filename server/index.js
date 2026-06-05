@@ -137,6 +137,8 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.listen(PORT, '127.0.0.1', () => {
-  console.log(`API server running on http://127.0.0.1:${PORT}`);
+const HOST = process.env.HOST || '0.0.0.0';
+
+app.listen(PORT, HOST, () => {
+  console.log(`API server running on http://${HOST}:${PORT}`);
 });

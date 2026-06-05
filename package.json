@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "concurrently -k -n server,client -c green,blue \"npm:server\" \"npm:client\"",
     "server": "node server/index.js",
+    "start": "node server/index.js",
     "client": "vite --host 127.0.0.1 --port 4173",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4173"
