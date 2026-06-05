@@ -4553,18 +4553,19 @@ section + section {
   font-size: 0.9rem;
 }
 
-.item-page-card {
+.item-page-hero {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.05fr);
-  gap: 28px;
-  align-items: end;
-  min-height: 430px;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  min-height: 520px;
 }
 
-.item-page-copy {
-  max-width: 760px;
+.item-page-content {
+  max-width: 580px;
+  padding-right: 20px;
 }
 
 .item-page-eyebrow {
@@ -4576,15 +4577,15 @@ section + section {
   font-weight: 700;
 }
 
-.item-page-copy h1 {
+.item-page-title {
   margin: 0;
-  max-width: 6.5ch;
   color: #003049;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(4rem, 8vw, 7.6rem);
-  line-height: 0.86;
-  letter-spacing: 0.03em;
+  font-size: clamp(3.5rem, 7vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
+  max-width: 100%;
 }
 
 .item-page-summary {
@@ -4926,8 +4927,17 @@ section + section {
   .dropdown-grid,
   .collection-grid,
   .detail-hero,
-  .item-page-card {
+  .item-page-hero {
     grid-template-columns: 1fr;
+  }
+
+  .item-page-hero {
+    gap: 40px;
+  }
+
+  .item-page-content {
+    padding-right: 0;
+    max-width: 100%;
   }
 
   .dropdown-grid {

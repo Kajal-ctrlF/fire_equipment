@@ -348,18 +348,10 @@ function ItemDetailPage({ item, collection, pageLabel, collectionPath }) {
             </span>
           </div>
 
-          <div className="item-page-card">
-            <figure className="item-page-visual">
-              <img className="item-page-image" src={item.image} alt={item.title} loading="eager" />
-              <figcaption>
-                <span>Featured image</span>
-                <strong>{item.title}</strong>
-              </figcaption>
-            </figure>
-
-            <div className="item-page-copy">
+          <div className="item-page-hero">
+            <div className="item-page-content">
               <p className="item-page-eyebrow">{pageLabel}</p>
-              <h1>{item.title}</h1>
+              <h1 className="item-page-title">{item.title}</h1>
               <p className="item-page-summary">{item.summary}</p>
               <div className="pill-row item-page-pill-row">
                 {item.specs.map((spec) => (
@@ -377,6 +369,14 @@ function ItemDetailPage({ item, collection, pageLabel, collectionPath }) {
                 </Link>
               </div>
             </div>
+
+            <figure className="item-page-visual">
+              <img className="item-page-image" src={item.image} alt={item.title} loading="eager" />
+              <figcaption>
+                <span>Featured image</span>
+                <strong>{item.title}</strong>
+              </figcaption>
+            </figure>
           </div>
         </div>
 
