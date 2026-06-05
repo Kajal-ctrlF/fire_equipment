@@ -1025,12 +1025,14 @@ function SiteShell() {
   };
 
   const handleCatalogNavigate = () => {
+    setCatalogQuery('');
     closeAllMenus();
     setNavOpen(false);
   };
 
   const handleCatalogKeyDown = (event) => {
     if (event.key === 'Enter' && catalogQuery.trim()) {
+      setCatalogQuery('');
       navigate('/products');
     }
   };
